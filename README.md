@@ -1,18 +1,19 @@
 # Tellix
 
-> Tellix is a conversational recon interface powered by httpx and LLMs. Just ask.
+> Tellix is a conversational recon interface and MCP server powered by httpx and LLMs. Just ask.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Docker](https://img.shields.io/badge/docker-compatible-green)
-![MCP](https://img.shields.io/badge/MCP-1.7.0-purple)
+![MCP](https://img.shields.io/badge/MCP-server-purple)
 
 ## Overview
 
-Tellix bridges the gap between natural language and HTTP infrastructure analysis. It integrates with AI assistants through the Model Context Protocol (MCP) to let you run reconnaissance on web domains using simple prompts.
+Tellix bridges the gap between natural language and HTTP infrastructure analysis. It exposes recon tools through the Model Context Protocol (MCP), allowing you to run reconnaissance on web domains via any compatible AI interface.
 
 ## Features
 
 - **Conversational Commands**: Run reconnaissance through simple text prompts
+- **MCP Server**: Use with Claude Desktop, local LLM wrappers, or other MCP-compatible tools
 - **Three Analysis Modes**: Choose from quick, complete, or full reconnaissance levels
 - **Docker Ready**: Run in an isolated container for security and portability
 - **Powered by httpx**: Built on ProjectDiscovery's battle-tested reconnaissance tool
@@ -123,9 +124,9 @@ npm install
 npm start
 ```
 
-## MCP Integration
+## MCP Configuration
 
-Add Tellix to your MCP configuration:
+Tellix runs as a standalone MCP server. Add it to your MCP configuration like so:
 
 ```json
 "tellix": {
@@ -164,3 +165,5 @@ This project is licensed under the MIT License.
 
 - Built with [Model Context Protocol SDK](https://modelcontextprotocol.io/introduction)
 - Powered by [httpx](https://github.com/projectdiscovery/httpx) from ProjectDiscovery
+
+
