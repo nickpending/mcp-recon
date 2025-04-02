@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "zod": "^3.22.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
