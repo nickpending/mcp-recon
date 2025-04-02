@@ -2,9 +2,7 @@
 
 > Tellix is a conversational recon interface and MCP server powered by httpx and LLMs. Just ask.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Docker](https://img.shields.io/badge/docker-compatible-green)
-![MCP](https://img.shields.io/badge/MCP-server-purple)
+&#x20;&#x20;
 
 ## Overview
 
@@ -112,6 +110,7 @@ docker run -it --rm tellix
 ### Manual Setup
 
 Requirements:
+
 - Node.js 18+
 - Go (for httpx)
 - httpx (`go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest`)
@@ -143,19 +142,29 @@ Tellix runs as a standalone MCP server. Add it to your MCP configuration like so
 ## Troubleshooting
 
 **No Results Returned**: Check that:
+
 - Domain is publicly accessible
-- You've specified the correct tool (http_quick_recon, http_complete_recon, or http_full_recon)
+- You've specified the correct tool (http\_quick\_recon, http\_complete\_recon, or http\_full\_recon)
 - Target domain isn't blocking scans
 
 **Performance Issues**:
-- Start with http_quick_recon for faster results 
+
+- Start with http\_quick\_recon for faster results
 - Scan fewer domains at once for better performance
 
 ## Security Considerations
 
 - Only scan domains you own or have permission to test
-- The full_recon mode retrieves complete page content - use judiciously
+- The full\_recon mode retrieves complete page content - use judiciously
 - Consider rate limiting to avoid impacting target systems
+
+## Screenshot
+
+Tellix in action via Claude Desktop, using the `http_quick_recon` tool:
+
+
+
+> This example shows a quick recon request on `www.google.com`, returning status code, title, server details, and IP address — all from a natural language query.
 
 ## License
 
