@@ -160,7 +160,15 @@ Tellix runs as a standalone MCP server. Add it to your MCP configuration like so
 
 ## Screenshot
 
-Tellix in action via Claude Desktop, using the `http_quick_recon` tool:
+Tellix in action via Claude Desktop, using the `http_quick_recon` and `http_complete_recon` tools:
+
+![Tellix Screenshot - Quick Recon](docs/tellix-screenshot-01.png)
+
+> This example shows a quick recon request on `www.google.com`, returning status code, title, server details, and IP address — all from a natural language query.
+
+![Tellix Screenshot - Complete Recon](docs/tellix-screenshot-02.png)
+
+> This example demonstrates a complete recon on `www.microsoft.com`, including TLS config, headers, CDN, and security observations.
 
 
 
