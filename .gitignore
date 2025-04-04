@@ -1,0 +1,72 @@
+# ─── Go Build Artifacts ────────────────────────────
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output directories
+/build
+/bin
+/dist
+
+# Test binary
+*.test
+
+# Coverage reports
+*.coverprofile
+*.cov
+coverage.*
+coverage.out
+
+# ─── Go Modules ────────────────────────────────────
+/vendor/
+go.sum
+go.work.sum
+
+# ─── OS Files ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Editor/IDE Configs ────────────────────────────
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+*.sw?
+*.log
+
+# ─── Docker ────────────────────────────────────────
+*.dockerfile
+Dockerfile.*
+docker-compose.yml
+docker-compose.*.yml
+.env
+*.env.*
+.dockerignore
+
+# ─── Build Cache ───────────────────────────────────
+*.cache
+__pycache__/
+
+# ─── Project Discovery MCP ─────────────────────────
+.mcp/
+mcp.log
+mcp.db
+*.mcp*
+
+# ─── Misc ──────────────────────────────────────────
+*.tmp
+*.bak
+*.old
+*.orig
+*.rej
+
+# ─── Git Specific ──────────────────────────────────
+*.patch
+*.diff
+*.orig
+

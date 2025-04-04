@@ -1,31 +1,30 @@
-# Use the latest stable Node.js version
-FROM node:18-alpine
+# Build stage
+FROM golang:1.23-alpine AS builder
 
-# Install required packages
-RUN apk add --no-cache bash
+RUN apk --no-cache add git build-base
 
-# Install httpx
-RUN apk add --no-cache go && \
-    go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
-    apk del go
-
-# Add go bin to PATH
-ENV PATH="/root/go/bin:${PATH}"
-
-# Set up app directory
 WORKDIR /app
 
-# Copy package files (only package.json, without requiring package-lock.json)
-COPY package.json ./
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
 
-# Install dependencies
-RUN npm install
+COPY . .
 
-# Copy server file
-COPY server.js .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o tellix ./tellix.go
 
-# Create temp directory
-RUN mkdir -p /tmp/osint-mcp
+# Final image
+FROM alpine:3.18
 
-# Run the server
-CMD ["node", "server.js"]
+RUN apk --no-cache add ca-certificates
+RUN addgroup -S app && adduser -S app -G app
+
+WORKDIR /app
+RUN mkdir -p /tmp/tellix && chown -R app:app /tmp/tellix
+
+COPY --from=builder /app/tellix .
+
+RUN chmod +x /app/tellix
+USER app
+CMD ["./tellix"]
+

@@ -2,25 +2,26 @@
 
 > Tellix is a conversational recon interface and MCP server powered by httpx and LLMs. Just ask.
 
-&#x20;&#x20;
-
 ## Overview
 
-Tellix bridges the gap between natural language and HTTP infrastructure analysis. It exposes recon tools through the Model Context Protocol (MCP), allowing you to run reconnaissance on web domains via any compatible AI interface.
+Tellix bridges the gap between natural language and HTTP infrastructure analysis. It exposes recon tools through the Model Context Protocol (MCP), allowing you to run reconnaissance on web domains via any compatible AI interface, like Claude Desktop.
 
 ## Features
 
 - **Conversational Commands**: Run reconnaissance through simple text prompts
 - **MCP Server**: Use with Claude Desktop, local LLM wrappers, or other MCP-compatible tools
-- **Three Analysis Modes**: Choose from quick, complete, or full reconnaissance levels
+- **Multiple Analysis Modes**: Choose from quick, complete, and full reconnaissance levels
+- **Standalone ASN Lookup**: Query IPs, ASNs, or organizations directly
+- **Built-in TLS, CDN, and header analysis**
 - **Docker Ready**: Run in an isolated container for security and portability
-- **Powered by httpx**: Built on ProjectDiscovery's battle-tested reconnaissance tool
+- **Powered by httpx**: Built on ProjectDiscovery's battle-tested reconnaissance tools
+- **Bug Workarounds**: Automatically handles `httpx`'s stdin/stdout leakage issue
 
 ## Quick Start Guide
 
-Tellix provides three levels of reconnaissance through dedicated tools:
+Tellix provides three main reconnaissance tools:
 
-### 1. Quick Reconnaissance (`http_quick_recon`)
+### 1. Quick/Lightweight Reconnaissance (`http_lite_recon` / `http_quick_recon`)
 
 Fast, lightweight HTTP fingerprinting that provides essential information with minimal overhead.
 
@@ -32,28 +33,28 @@ User: "Using quick http recon, what's the status code for example.com?"
 AI: "I checked example.com and it's currently returning a 200 OK status code, indicating the site is up and functioning normally. It's being served from an Nginx web server on IP 93.184.216.34."
 ```
 
-### 2. Complete Reconnaissance (`http_complete_recon`)
+### 2. Full Reconnaissance (`http_full_recon`)
 
-Comprehensive metadata collection including headers, certificates, and technology detection.
+Comprehensive metadata collection including page previews, headers, certificates, and technology detection.
 
 Example user query and expected response:
 
 ```
-User: "Using complete http recon, what certificates is www.google.com using?"
+User: "Using full http recon, what certificates is www.google.com using?"
 
 AI: "Based on my analysis, www.google.com is using a TLS 1.3 certificate issued by Google Trust Services. The certificate was issued on March 20, 2025, and is valid until June 12, 2025. It was specifically issued for 'www.google.com' and uses the TLS_AES_128_GCM_SHA256 cipher suite."
 ```
 
-### 3. Full Content Reconnaissance (`http_full_recon`)
+### 4. ASN Lookup (`asn_lookup`)
 
-In-depth analysis including full page content, requiring explicit confirmation.
+Standalone lookup of IPs, ASNs, or org names using ProjectDiscovery's `asnmap` library.
 
 Example user query and expected response:
 
 ```
-User: "Using full http recon, what text appears on the homepage of example.com?"
+User: "Who owns ASN 14421?"
 
-AI: "The homepage of example.com displays a simple page with the heading 'Example Domain' followed by text explaining that this domain is established to be used for illustrative examples in documents. It also includes a link to more information at the IANA website."
+AI: "ASN 14421 is operated by 'PPLINKNET' in the US."
 ```
 
 ## Example Queries
@@ -95,33 +96,29 @@ AI: "My analysis shows:
 Microsoft and Apple are using the newer TLS 1.3 protocol while Amazon uses TLS 1.2."
 ```
 
+### Lookup by IP
+
+```
+User: "Tell me who owns 8.8.8.8 using ASN lookup"
+
+AI: "8.8.8.8 belongs to Google LLC (AS15169) in the United States."
+```
+
 ## Installation
 
-### Docker (Recommended)
-
 ```bash
-# Build the image
+# Clone the repository
+git clone https://github.com/nickpending/tellix.git
+cd tellix
+
+# Build the Docker image
 docker build -t tellix .
 
 # Run the container
 docker run -it --rm tellix
 ```
 
-### Manual Setup
-
-Requirements:
-
-- Node.js 18+
-- Go (for httpx)
-- httpx (`go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest`)
-
-```bash
-# Install dependencies
-npm install
-
-# Run the server
-npm start
-```
+Tellix is designed to run as a Docker container to be used with Claude Desktop via the MCP protocol.
 
 ## MCP Configuration
 
@@ -139,23 +136,49 @@ Tellix runs as a standalone MCP server. Add it to your MCP configuration like so
 }
 ```
 
+Or using an `.env` file:
+
+```json
+"tellix": {
+  "command": "docker",
+  "args": [
+    "run",
+    "--rm",
+    "-i",
+    "--env-file", "/Users/yourname/.config/tellix.env",
+    "mcp/osint"
+  ]
+}
+```
+
+Your `.env` should contain:
+
+```env
+PDCP_API_KEY=your_projectdiscovery_api_key
+```
+
 ## Troubleshooting
 
 **No Results Returned**: Check that:
 
 - Domain is publicly accessible
-- You've specified the correct tool (http\_quick\_recon, http\_complete\_recon, or http\_full\_recon)
+- You've specified the correct tool (http_quick_recon, http_full_recon, asn)
 - Target domain isn't blocking scans
 
 **Performance Issues**:
 
-- Start with http\_quick\_recon for faster results
+- Start with http_quick_recon for faster results
 - Scan fewer domains at once for better performance
+
+## Known Issues
+
+- **httpx Stdin Leak**: The `httpx` library attempts to read stdin even when used as a library. Tellix shields `os.Stdin` to prevent interference with MCP.
+- **ASN Silent Failures**: Even when `Asn = true`, `httpx` may fail to enrich IPs. Tellix includes a fallback using the official `asnmap` Go library.
 
 ## Security Considerations
 
 - Only scan domains you own or have permission to test
-- The full\_recon mode retrieves complete page content - use judiciously
+- The full_recon mode retrieves complete page content - use judiciously
 - Consider rate limiting to avoid impacting target systems
 
 ## Screenshot
@@ -170,17 +193,18 @@ Tellix in action via Claude Desktop, using the `http_quick_recon` and `http_comp
 
 > This example demonstrates a complete recon on `www.microsoft.com`, including TLS config, headers, CDN, and security observations.
 
-
-
-> This example shows a quick recon request on `www.google.com`, returning status code, title, server details, and IP address — all from a natural language query.
-
 ## License
 
 This project is licensed under the MIT License.
 
+## Related Work
+
+[This section intentionally left as a placeholder for similar projects to be added when discovered]
+
 ## Acknowledgments
 
 - Built with [Model Context Protocol SDK](https://modelcontextprotocol.io/introduction)
+- Powered by [mcp-go](https://github.com/mark3labs/mcp-go) Go SDK for MCP
 - Powered by [httpx](https://github.com/projectdiscovery/httpx) from ProjectDiscovery
-
-
+- ASN lookups via [asnmap](https://github.com/projectdiscovery/asnmap) library
+- Testing and development with [Claude Desktop](https://www.anthropic.com)
