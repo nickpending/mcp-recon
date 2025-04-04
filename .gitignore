@@ -6,6 +6,7 @@
 *.dylib
 *.test
 *.out
+tellix
 
 # Output directories
 /build

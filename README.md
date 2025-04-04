@@ -1,6 +1,6 @@
 # mcp-recon
 
-> mcp-recon (formerly Tellix) is a conversational recon interface and MCP server powered by httpx and LLMs. Just ask.
+> mcp-recon (formerly Tellix) is a conversational recon interface and MCP server powered by httpx and asnmap. Just ask.
 
 ## Overview
 
@@ -146,7 +146,7 @@ Or using an `.env` file:
     "--rm",
     "-i",
     "--env-file", "/Users/yourname/.config/mcp-recon.env",
-    "mcp/osint"
+    "mcp/recon"
   ]
 }
 ```
