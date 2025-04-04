@@ -1,10 +1,10 @@
-# Tellix
+# mcp-recon
 
-> Tellix is a conversational recon interface and MCP server powered by httpx and LLMs. Just ask.
+> mcp-recon (formerly Tellix) is a conversational recon interface and MCP server powered by httpx and LLMs. Just ask.
 
 ## Overview
 
-Tellix bridges the gap between natural language and HTTP infrastructure analysis. It exposes recon tools through the Model Context Protocol (MCP), allowing you to run reconnaissance on web domains via any compatible AI interface, like Claude Desktop.
+mcp-recon bridges the gap between natural language and HTTP infrastructure analysis. It exposes recon tools through the Model Context Protocol (MCP), allowing you to run reconnaissance on web domains via any compatible AI interface, like Claude Desktop.
 
 ## Features
 
@@ -19,7 +19,7 @@ Tellix bridges the gap between natural language and HTTP infrastructure analysis
 
 ## Quick Start Guide
 
-Tellix provides three main reconnaissance tools:
+mcp-recon provides three main reconnaissance tools:
 
 ### 1. Quick/Lightweight Reconnaissance (`http_lite_recon` / `http_quick_recon`)
 
@@ -108,30 +108,30 @@ AI: "8.8.8.8 belongs to Google LLC (AS15169) in the United States."
 
 ```bash
 # Clone the repository
-git clone https://github.com/nickpending/tellix.git
-cd tellix
+git clone https://github.com/nickpending/mcp-recon.git
+cd mcp-recon
 
 # Build the Docker image
-docker build -t tellix .
+docker build -t mcp-recon .
 
 # Run the container
-docker run -it --rm tellix
+docker run -it --rm mcp-recon
 ```
 
-Tellix is designed to run as a Docker container to be used with Claude Desktop via the MCP protocol.
+mcp-recon is designed to run as a Docker container to be used with Claude Desktop via the MCP protocol.
 
 ## MCP Configuration
 
-Tellix runs as a standalone MCP server. Add it to your MCP configuration like so:
+mcp-recon runs as a standalone MCP server. Add it to your MCP configuration like so:
 
 ```json
-"tellix": {
+"mcp-recon": {
   "command": "docker",
   "args": [
     "run",
     "--rm",
     "-i",
-    "tellix"
+    "mcp-recon"
   ]
 }
 ```
@@ -139,13 +139,13 @@ Tellix runs as a standalone MCP server. Add it to your MCP configuration like so
 Or using an `.env` file:
 
 ```json
-"tellix": {
+"mcp-recon": {
   "command": "docker",
   "args": [
     "run",
     "--rm",
     "-i",
-    "--env-file", "/Users/yourname/.config/tellix.env",
+    "--env-file", "/Users/yourname/.config/mcp-recon.env",
     "mcp/osint"
   ]
 }
@@ -172,8 +172,8 @@ PDCP_API_KEY=your_projectdiscovery_api_key
 
 ## Known Issues
 
-- **httpx Stdin Leak**: The `httpx` library attempts to read stdin even when used as a library. Tellix shields `os.Stdin` to prevent interference with MCP.
-- **ASN Silent Failures**: Even when `Asn = true`, `httpx` may fail to enrich IPs. Tellix includes a fallback using the official `asnmap` Go library.
+- **httpx Stdin Leak**: The `httpx` library attempts to read stdin even when used as a library. mcp-recon shields `os.Stdin` to prevent interference with MCP.
+- **ASN Silent Failures**: Even when `Asn = true`, `httpx` may fail to enrich IPs. mcp-recon includes a fallback using the official `asnmap` Go library.
 
 ## Security Considerations
 
@@ -183,15 +183,19 @@ PDCP_API_KEY=your_projectdiscovery_api_key
 
 ## Screenshot
 
-Tellix in action via Claude Desktop, using the `http_quick_recon` and `http_complete_recon` tools:
+mcp-recon in action via Claude Desktop, using the `http_quick_recon` and `http_complete_recon` tools:
 
-![Tellix Screenshot - Quick Recon](docs/tellix-screenshot-01.png)
+![mcp-recon Screenshot - Quick Recon](docs/tellix-screenshot-01.png)
 
 > This example shows a quick recon request on `www.google.com`, returning status code, title, server details, and IP address — all from a natural language query.
 
-![Tellix Screenshot - Complete Recon](docs/tellix-screenshot-02.png)
+![mcp-recon Screenshot - Complete Recon](docs/tellix-screenshot-02.png)
 
 > This example demonstrates a complete recon on `www.microsoft.com`, including TLS config, headers, CDN, and security observations.
+
+## Name Change Notice
+
+This project was formerly known as **Tellix**. It has been renamed to **mcp-recon** to better align with the Model Context Protocol (MCP) naming convention used in security tools. All links to the previous repository name will be redirected to the new name, but you should update your references when possible.
 
 ## License
 
