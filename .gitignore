@@ -24,8 +24,6 @@ coverage.out
 
 # ─── Go Modules ────────────────────────────────────
 /vendor/
-go.sum
-go.work.sum
 
 # ─── OS Files ──────────────────────────────────────
 .DS_Store
