@@ -6,6 +6,10 @@
 
 **mcp-recon** bridges the gap between natural language and HTTP infrastructure analysis. It exposes reconnaissance tools through the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction), allowing you to perform web domain reconnaissance via any compatible AI interface, such as Claude Desktop.
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/nickpending-mcp-recon).
+
 ## Features
 
 - **Conversational Commands**: Execute reconnaissance through simple text prompts
